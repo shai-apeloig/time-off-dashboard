@@ -1,0 +1,32 @@
+{
+  "generated": "2026-07-31",
+  "results": [
+    {"Week": "START – opening balance", "date:Week start:start": "2025-12-28", "Entitled": 3.5, "Taken": 0, "date:Day off:start": null, "date:Day off:end": null, "Status": "Confirmed", "Note": "Opening balance: +3.5 saved days as of end of 2025 (from old sheet)."},
+    {"Week": "2026-V1", "date:Week start:start": "2025-12-29", "Entitled": 0, "Taken": 3, "date:Day off:start": "2025-12-29", "date:Day off:end": "2026-01-02", "Status": "Confirmed", "Note": "Minus 3 dagar komp på mellandagarna (nyårsveckan). Exakta dagar ej noterade i gamla arket — intervall mellandagarna."},
+    {"Week": "2026-V2", "date:Week start:start": "2026-01-05", "Entitled": 0, "Taken": 0, "date:Day off:start": "2026-01-09", "date:Day off:end": null, "Status": "Confirmed", "Note": "0,5 dagar sparade efter komp på mellandagarna (se 2026-V1). Ingen intjäning denna vecka enligt gamla arket."},
+    {"Week": "2026-V3", "date:Week start:start": "2026-01-12", "Entitled": 0.5, "Taken": 0, "date:Day off:start": "2026-01-16", "date:Day off:end": null, "Status": "Confirmed", "Note": "Fick arbeta efter LFL. (1 dag sparad)"},
+    {"Week": "2026-V4", "date:Week start:start": "2026-01-19", "Entitled": 0.5, "Taken": 0.5, "date:Day off:start": "2026-01-23", "date:Day off:end": null, "Status": "Confirmed", "Note": "(1 dag sparad)"},
+    {"Week": "2026-V5", "date:Week start:start": "2026-01-26", "Entitled": 0.5, "Taken": 0.5, "date:Day off:start": "2026-01-30", "date:Day off:end": null, "Status": "Confirmed", "Note": "(1 dag sparad)"},
+    {"Week": "2026-V6", "date:Week start:start": "2026-02-02", "Entitled": 0.5, "Taken": 0, "date:Day off:start": "2026-02-06", "date:Day off:end": null, "Status": "Confirmed", "Note": "(1,5 dagar sparade)"},
+    {"Week": "2026-V7", "date:Week start:start": "2026-02-09", "Entitled": 0, "Taken": 1, "date:Day off:start": "2026-02-13", "date:Day off:end": null, "Status": "Confirmed", "Note": "Tog ut en dag under semestern (UCPA). Ingen intjäning semestervecka. (0,5 dagar sparade)"},
+    {"Week": "2026-V8", "date:Week start:start": "2026-02-16", "Entitled": 0, "Taken": 0, "date:Day off:start": "2026-02-20", "date:Day off:end": null, "Status": "Confirmed", "Note": "Influensaveckan — ingen intjäning enligt gamla arket. (0,5 dagar sparade)"},
+    {"Week": "2026-V9", "date:Week start:start": "2026-02-23", "Entitled": 0.5, "Taken": 0, "date:Day off:start": "2026-02-27", "date:Day off:end": null, "Status": "Confirmed", "Note": "(1 dag sparad)"},
+    {"Week": "2026-V10", "date:Week start:start": "2026-03-02", "Entitled": 0, "Taken": 1, "date:Day off:start": "2026-03-06", "date:Day off:end": null, "Status": "Confirmed", "Note": "Södertälje. Ingen intjäning enligt gamla arket. (0 dagar sparade)"},
+    {"Week": "2026-V11", "date:Week start:start": "2026-03-09", "Entitled": 0.5, "Taken": 0, "date:Day off:start": "2026-03-13", "date:Day off:end": null, "Status": "Confirmed", "Note": "(0,5 dagar sparade)"},
+    {"Week": "2026-V12", "date:Week start:start": "2026-03-16", "Entitled": 0, "Taken": 0.5, "date:Day off:start": "2026-03-20", "date:Day off:end": null, "Status": "Confirmed", "Note": "Ingen intjäning enligt gamla arket. (0 dagar sparade)"},
+    {"Week": "2026-V13", "date:Week start:start": "2026-03-23", "Entitled": 0.5, "Taken": 0.5, "date:Day off:start": "2026-03-27", "date:Day off:end": null, "Status": "Confirmed", "Note": "(0 dagar sparade)"},
+    {"Week": "2026-V14", "date:Week start:start": "2026-03-30", "Entitled": 0, "Taken": 0, "date:Day off:start": "2026-04-03", "date:Day off:end": null, "Status": "Confirmed", "Note": "Påskvecka (långfredag). (0 dagar sparade)"},
+    {"Week": "2026-V15", "date:Week start:start": "2026-04-06", "Entitled": 0.5, "Taken": 0.5, "date:Day off:start": "2026-04-10", "date:Day off:end": null, "Status": "Confirmed", "Note": "Vecka med annandag påsk. (0 dagar sparade)"},
+    {"Week": "2026-V16", "date:Week start:start": "2026-04-13", "Entitled": 0.5, "Taken": 1, "date:Day off:start": "2026-04-17", "date:Day off:end": null, "Status": "Confirmed", "Note": "Spa. (−0,5 dag)"},
+    {"Week": "2026-V17", "date:Week start:start": "2026-04-20", "Entitled": 0.5, "Taken": 0, "date:Day off:start": "2026-04-24", "date:Day off:end": null, "Status": "Confirmed", "Note": "(0 dagar sparade)"},
+    {"Week": "2026-V18", "date:Week start:start": "2026-04-27", "Entitled": 0.5, "Taken": 0, "date:Day off:start": "2026-04-30", "date:Day off:end": null, "Status": "Confirmed", "Note": "Fredag var 1 maj. (0,5 dagar sparade)"},
+    {"Week": "2026-V19", "date:Week start:start": "2026-05-04", "Entitled": 0, "Taken": 1, "date:Day off:start": "2026-05-08", "date:Day off:end": null, "Status": "Confirmed", "Note": "Ingen intjäning enligt gamla arket. (−0,5 dag)"},
+    {"Week": "2026-V20", "date:Week start:start": "2026-05-11", "Entitled": 0, "Taken": 0, "date:Day off:start": "2026-05-15", "date:Day off:end": null, "Status": "Confirmed", "Note": "Flög till Israel, semester. Kristi himmelsfärdsvecka. (−0,5 dag)"},
+    {"Week": "2026-V21", "date:Week start:start": "2026-05-18", "Entitled": 0, "Taken": 0, "date:Day off:start": "2026-05-22", "date:Day off:end": null, "Status": "Confirmed", "Note": "I Israel (semester). (−0,5 dag)"},
+    {"Week": "2026-V22", "date:Week start:start": "2026-05-25", "Entitled": 0, "Taken": 0, "date:Day off:start": "2026-05-29", "date:Day off:end": null, "Status": "Confirmed", "Note": "I Israel (semester). (−0,5 dag)"},
+    {"Week": "2026-V23", "date:Week start:start": "2026-06-01", "Entitled": 0, "Taken": 0, "date:Day off:start": "2026-06-05", "date:Day off:end": null, "Status": "Confirmed", "Note": "I Israel (semester). Komp-fredag 5 juni (nationaldagen på lördag). (−0,5 dag)"},
+    {"Week": "2026-V24", "date:Week start:start": "2026-06-08", "Entitled": 0.5, "Taken": 0, "date:Day off:start": "2026-06-12", "date:Day off:end": null, "Status": "Confirmed", "Note": "(balans 0)"},
+    {"Week": "2026-V25", "date:Week start:start": "2026-06-15", "Entitled": 0, "Taken": 0, "date:Day off:start": "2026-06-19", "date:Day off:end": null, "Status": "Confirmed", "Note": "Kort vecka midsommar (midsommarafton fredag). (balans 0)"},
+    {"Week": "2026-V31", "date:Week start:start": "2026-07-27", "Entitled": 0.5, "Taken": 0.5, "date:Day off:start": "2026-07-28", "date:Day off:end": null, "Status": "Preliminary", "Note": "Halvdag tisdag. Fredag ännu ej avgjord."}
+  ]
+}

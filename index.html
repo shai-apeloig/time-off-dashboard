@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Time off 90% – Shai</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js" integrity="sha384-iU8HYtnGQ8Cy4zl7gbNMOhsDTTKX02BTXptVP/vqAWIaTfM7isw76iyZCsjL2eVi" crossorigin="anonymous"></script>
+<style>
+:root { color-scheme: light; }
+* { box-sizing: border-box; margin: 0; }
+body { font-family: -apple-system, "Segoe UI", Roboto, sans-serif; background:#f7f6f3; color:#1f1f1f; padding:20px; }
+.wrap { max-width: 960px; margin: 0 auto; }
+h1 { font-size: 18px; font-weight: 600; margin-bottom: 14px; }
+.cards { display:grid; grid-template-columns: repeat(auto-fit,minmax(200px,1fr)); gap:12px; margin-bottom:18px; }
+.card { background:#fff; border:1px solid #e6e3dd; border-radius:10px; padding:16px; }
+.card .label { font-size:12px; color:#8a8578; text-transform:uppercase; letter-spacing:.05em; margin-bottom:6px; }
+.card .value { font-size:28px; font-weight:700; }
+.card .sub { font-size:12px; color:#8a8578; margin-top:4px; }
+.pos { color:#1a7f4b; } .neg { color:#c0392b; } .zero { color:#1f1f1f; }
+.section { background:#fff; border:1px solid #e6e3dd; border-radius:10px; padding:16px; margin-bottom:18px; }
+.section h2 { font-size:14px; font-weight:600; margin-bottom:10px; }
+#chartBox { height: 220px; }
+table { width:100%; border-collapse:collapse; font-size:13px; }
+th { text-align:left; color:#8a8578; font-weight:500; padding:6px 8px; border-bottom:1px solid #eee; }
+td { padding:7px 8px; border-bottom:1px solid #f2f0ec; }
+.chip { display:inline-block; padding:2px 8px; border-radius:10px; font-size:11px; }
+.chip.Confirmed { background:#e3f2e8; color:#1a7f4b; }
+.chip.Preliminary { background:#fdf3d7; color:#9a7b18; }
+.cal { display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:14px; }
+.month { border:1px solid #eee; border-radius:8px; padding:10px; }
+.month h3 { font-size:12px; text-align:center; margin-bottom:6px; color:#555; }
+.grid { display:grid; grid-template-columns:repeat(7,1fr); gap:2px; font-size:10.5px; text-align:center; }
+.grid .dow { color:#aaa; }
+.grid .d { padding:3px 0; border-radius:5px; }
+.grid .off-full { background:#c0392b; color:#fff; font-weight:600; }
+.grid .off-half { background:linear-gradient(135deg,#c0392b 50%,#f3d9d4 50%); color:#fff; font-weight:600; }
+.grid .off-quarter { background:linear-gradient(135deg,#c0392b 25%,#f3d9d4 25%); color:#7a2318; font-weight:600; }
+.grid .today { outline:2px solid #2a5f9e; }
+.grid .other { color:#ccc; }
+.legend { font-size:11px; color:#8a8578; margin-top:8px; }
+.dot { display:inline-block; width:10px; height:10px; border-radius:3px; vertical-align:-1px; margin:0 3px 0 10px; }
+#err { color:#c0392b; font-size:13px; margin:10px 0; display:none; }
+#loading { color:#8a8578; font-size:13px; }
+a { color:#2a5f9e; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Time off 90% – balance <span id="gen" style="font-size:12px;font-weight:400;float:right;color:#8a8578;margin-left:8px"></span><a id="dblink" href="https://app.notion.com/p/8b27aa6a93aa4693b33772adf6b1d7a9" target="_blank" style="font-size:12px;font-weight:400;float:right">Open Notion database ↗</a></h1>
+  <div id="loading">Loading from Notion…</div>
+  <div id="err"></div>
+  <div id="app" style="display:none">
+    <div class="cards">
+      <div class="card"><div class="label">Balance today</div><div class="value" id="balNow"></div><div class="sub" id="balNowSub"></div></div>
+      <div class="card"><div class="label">If you work rest of this week</div><div class="value" id="balProj"></div><div class="sub">incl. this week's entitlement</div></div>
+      <div class="card"><div class="label">This week</div><div class="value" id="thisWeek" style="font-size:16px;padding-top:6px"></div><div class="sub" id="thisWeekSub"></div></div>
+    </div>
+    <div class="section"><h2>Balance over time</h2><div id="chartBox"><canvas id="chart"></canvas></div></div>
+    <div class="section"><h2>Calendar – days off</h2><div class="cal" id="cal"></div>
+      <div class="legend">Mon-first weeks.<span class="dot" style="background:#c0392b"></span>full day<span class="dot" style="background:linear-gradient(135deg,#c0392b 50%,#f3d9d4 50%)"></span>half day<span class="dot" style="background:linear-gradient(135deg,#c0392b 25%,#f3d9d4 25%)"></span>quarter day<span class="dot" style="outline:2px solid #2a5f9e;background:#fff"></span>today</div>
+    </div>
+    <div class="section"><h2>Weekly log</h2>
+      <table><thead><tr><th>Week</th><th>Entitled</th><th>Taken</th><th>Days off</th><th>Status</th><th>Note</th></tr></thead><tbody id="rows"></tbody></table>
+    </div>
+  </div>
+</div>
+<script>
+window.onerror = (msg,src,line) => {
+  console.error("Dashboard JS error: "+msg+" (line "+line+")");
+  const el=document.getElementById("err");
+  if(el){ el.style.display="block"; el.textContent="Dashboard error: "+msg+" — tell Claude and it will be fixed."; }
+  const l=document.getElementById("loading"); if(l) l.style.display="none";
+};
+// Static build for GitHub Pages — data comes from data.json (regenerated by the Monday sync)
+const fmt = n => (n>0?"+":"") + (Math.round(n*100)/100).toLocaleString("sv-SE");
+const cls = n => n>0.001?"pos":(n<-0.001?"neg":"zero");
+
+async function load(){
+  try{
+    const r = await fetch("data.json?t="+Date.now());
+    if(!r.ok) throw new Error("HTTP "+r.status);
+    const data = await r.json();
+    const g=document.getElementById("gen"); if(g&&data.generated) g.textContent="data as of "+data.generated+" · ";
+    render(data.results || []);
+  }catch(e){
+    document.getElementById("loading").style.display="none";
+    const el=document.getElementById("err"); el.style.display="block";
+    el.textContent="Could not load Notion data: "+e.message;
+  }
+}
+
+function render(rows){
+  const today = new Date(); today.setHours(0,0,0,0);
+  const parse = s => { const d = new Date(s+"T00:00:00"); d.setHours(0,0,0,0); return d; };
+  // detect columns by pattern so renames in the Notion UI don't break the dashboard
+  const keys = Object.keys(rows[0]||{});
+  const dateCols = keys.filter(k=>/^date:.+:start$/.test(k)).map(k=>k.slice(5,-6));
+  const wsCol  = dateCols.find(n=>/week\s*start|vecko/i.test(n)) || dateCols[0] || "Week start";
+  const offCol = dateCols.find(n=>n!==wsCol) || "Day off";
+  const kWeek  = keys.find(k=>/^(week|vecka)$/i.test(k)) || "Week";
+  const kEnt   = keys.find(k=>/entitle|rätt/i.test(k)) || "Entitled";
+  const kTaken = keys.find(k=>/^taken$|uttag/i.test(k)) || "Taken";
+  const kNote  = keys.find(k=>/note|anteckn/i.test(k)) || "Note";
+  rows = rows.map(x => ({
+    week: x[kWeek]||"", start: x["date:"+wsCol+":start"] ? parse(x["date:"+wsCol+":start"]) : null,
+    ent: +(x[kEnt]||0), taken: +(x[kTaken]||0),
+    offStart: x["date:"+offCol+":start"]||null, offEnd: x["date:"+offCol+":end"]||null,
+    status: x["Status"]||"", note: x[kNote]||""
+  })).filter(x=>x.start);
+  const offLabel = x => x.offStart ? (x.offEnd? x.offStart+" – "+x.offEnd : x.offStart) + (!x.offEnd ? (x.taken===0.5?" (half)":(x.taken===0.25?" (quarter)":(x.taken===0?" (worked)":""))) : "") : "";
+  rows.sort((a,b)=>a.start-b.start);
+
+  // group rows by week start (a week may have a second row named e.g. "2026-V32-2";
+  // entitlement counts once per week = max of its rows, taken = sum)
+  const byWeek=new Map();
+  for(const x of rows){
+    const k=x.start.getTime();
+    const g=byWeek.get(k)||{start:x.start, week:x.week.startsWith("START")?"Start":x.week.replace(/-2$/,""), ent:0, taken:0, rows:[]};
+    g.ent=Math.max(g.ent,x.ent); g.taken+=x.taken; g.rows.push(x);
+    byWeek.set(k,g);
+  }
+  const weeks=[...byWeek.values()].sort((a,b)=>a.start-b.start);
+
+  // balance: entitlement counts once the week is over (Sunday passed); taken always counts
+  const weekEnd = s => { const e=new Date(s); e.setDate(e.getDate()+6); return e; };
+  let bal=0, series=[], currentWeek=null;
+  for(const w of weeks){
+    const done = weekEnd(w.start) < today;
+    bal += (done? w.ent:0) - w.taken;
+    if(!done && w.start<=today) currentWeek=w;
+    series.push({label: w.week.replace("2026-",""), bal});
+  }
+  const proj = currentWeek ? bal + currentWeek.ent : bal;
+  const currentWeekRow = currentWeek ? {week:currentWeek.week, ent:currentWeek.ent, taken:currentWeek.taken,
+    label: currentWeek.rows.map(offLabel).filter(Boolean).join(", ")} : null;
+
+  const bn=document.getElementById("balNow"); bn.textContent=fmt(bal)+" d"; bn.className="value "+cls(bal);
+  document.getElementById("balNowSub").textContent = bal<0 ? "to work back" : (bal>0 ? "saved" : "even");
+  const bp=document.getElementById("balProj"); bp.textContent=fmt(proj)+" d"; bp.className="value "+cls(proj);
+  document.getElementById("thisWeek").textContent = currentWeekRow ? `${currentWeekRow.week}: ${currentWeekRow.taken} taken of ${currentWeekRow.ent}` : "not logged yet";
+  document.getElementById("thisWeekSub").textContent = currentWeekRow ? currentWeekRow.label : "row is created by the Monday sync";
+
+  // table (newest first)
+  const tb=document.getElementById("rows");
+  tb.innerHTML=[...rows].reverse().map(x=>`<tr><td>${x.week}</td><td>${x.ent}</td><td>${x.taken}</td><td>${offLabel(x)}</td><td>${x.status?`<span class="chip ${x.status}">${x.status}</span>`:""}</td><td>${x.note}</td></tr>`).join("");
+
+  // calendar: mark days from "Datum ledig" (start..end)
+  const off={}; // iso -> 'full'|'half'
+  for(const x of rows){
+    if(!x.offStart || !(x.taken>0)) continue; // date without time taken = worked that day, don't mark
+    const s=parse(x.offStart), e=x.offEnd?parse(x.offEnd):s;
+    const nDays=Math.round((e-s)/86400000)+1;
+    const perDay=x.taken/nDays;
+    for(let d=new Date(s); d<=e; d.setDate(d.getDate()+1)){
+      if(d.getDay()===0||d.getDay()===6) continue; // skip weekends
+      const iso=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+      off[iso] = perDay <= 0.3 ? "quarter" : (perDay < 0.75 ? "half" : "full");
+    }
+  }
+  const cal=document.getElementById("cal"); cal.innerHTML="";
+  const months=[]; const mStart=new Date(today.getFullYear(), today.getMonth()-5,1);
+  for(let i=0;i<8;i++) months.push(new Date(mStart.getFullYear(), mStart.getMonth()+i,1));
+  const dows=["M","T","W","T","F","S","S"];
+  for(const m of months){
+    const div=document.createElement("div"); div.className="month";
+    let h=`<h3>${m.toLocaleDateString("sv-SE",{month:"long",year:"numeric"})}</h3><div class="grid">`;
+    h+=dows.map(d=>`<span class="dow">${d}</span>`).join("");
+    const first=new Date(m); const lead=(first.getDay()+6)%7;
+    for(let i=0;i<lead;i++) h+="<span></span>";
+    const days=new Date(m.getFullYear(),m.getMonth()+1,0).getDate();
+    for(let d=1;d<=days;d++){
+      const dt=new Date(m.getFullYear(),m.getMonth(),d);
+      const iso=`${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
+      let c="d"; if(off[iso]==="full")c+=" off-full"; if(off[iso]==="half")c+=" off-half"; if(off[iso]==="quarter")c+=" off-quarter";
+      if(dt.getTime()===today.getTime())c+=" today";
+      h+=`<span class="${c}">${d}</span>`;
+    }
+    h+="</div>"; div.innerHTML=h; cal.appendChild(div);
+  }
+
+  // chart
+  new Chart(document.getElementById("chart"),{type:"line",
+    data:{labels:series.map(s=>s.label),datasets:[{data:series.map(s=>s.bal),borderColor:"#2a5f9e",backgroundColor:"rgba(42,95,158,.08)",fill:true,tension:.25,pointRadius:3}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+      scales:{y:{title:{display:true,text:"days"},grid:{color:"#f0ede8"}},x:{grid:{display:false}}}}});
+
+  document.getElementById("loading").style.display="none";
+  document.getElementById("app").style.display="block";
+}
+load();
+</script>
+</body>
+</html>
