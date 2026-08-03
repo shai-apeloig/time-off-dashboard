@@ -26,21 +26,22 @@ td { padding:7px 8px; border-bottom:1px solid #f2f0ec; }
 .chip { display:inline-block; padding:2px 8px; border-radius:10px; font-size:11px; }
 .chip.Confirmed { background:#e3f2e8; color:#1a7f4b; }
 .chip.Preliminary { background:#fdf3d7; color:#9a7b18; }
-.cal { display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:14px; }
+.cal { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+@media (max-width:800px){ .cal{grid-template-columns:repeat(2,1fr);} }
 .month { border:1px solid #eee; border-radius:8px; padding:10px; }
 .month h3 { font-size:12px; text-align:center; margin-bottom:6px; color:#555; }
 .grid { display:grid; grid-template-columns:repeat(7,1fr); gap:2px; font-size:10.5px; text-align:center; }
 .grid .dow { color:#aaa; }
 .grid .d { padding:3px 0; border-radius:5px; }
-.grid .off-full { background:#c0392b; color:#fff; font-weight:600; }
-.grid .off-half { background:linear-gradient(135deg,#c0392b 50%,#f3d9d4 50%); color:#fff; font-weight:600; }
-.grid .off-quarter { background:linear-gradient(135deg,#c0392b 25%,#f3d9d4 25%); color:#7a2318; font-weight:600; }
+.grid .off-full { background:#2a5f9e; color:#fff; font-weight:600; }
+.grid .off-half { background:linear-gradient(135deg,#2a5f9e 50%,#d6e4f7 50%); color:#fff; font-weight:600; }
+.grid .off-quarter { background:linear-gradient(135deg,#2a5f9e 25%,#d6e4f7 25%); color:#1e4675; font-weight:600; }
+.grid .vac { background:#d6e4f7; color:#1e4675; }
 .grid .today { outline:2px solid #2a5f9e; }
 .grid .red { background:#fbe4e4; color:#c0392b; font-weight:600; }
 .grid .eve { background:#fdf3d7; color:#9a7b18; font-weight:600; }
-.yeartabs { margin-bottom:10px; }
-.yeartabs button { border:1px solid #e6e3dd; background:#fff; border-radius:8px; padding:5px 14px; margin-right:6px; font-size:13px; cursor:pointer; }
-.yeartabs button.active { background:#2a5f9e; color:#fff; border-color:#2a5f9e; }
+.calnav { margin-bottom:10px; }
+.calnav button { border:1px solid #e6e3dd; background:#fff; border-radius:8px; padding:5px 12px; margin-right:6px; font-size:13px; cursor:pointer; }
 .grid .other { color:#ccc; }
 .legend { font-size:11px; color:#8a8578; margin-top:8px; }
 .dot { display:inline-block; width:10px; height:10px; border-radius:3px; vertical-align:-1px; margin:0 3px 0 10px; }
@@ -61,16 +62,13 @@ a { color:#2a5f9e; }
       <div class="card"><div class="label">This week</div><div class="value" id="thisWeek" style="font-size:16px;padding-top:6px"></div><div class="sub" id="thisWeekSub"></div></div>
     </div>
     <div class="section"><h2>Balance over time</h2><div id="chartBox"><canvas id="chart"></canvas></div></div>
-    <div class="section"><h2>Calendar – days off</h2><div class="cal" id="cal"></div>
-      <div class="legend">Mon-first weeks.<span class="dot" style="background:#c0392b"></span>full day<span class="dot" style="background:linear-gradient(135deg,#c0392b 50%,#f3d9d4 50%)"></span>half day<span class="dot" style="background:linear-gradient(135deg,#c0392b 25%,#f3d9d4 25%)"></span>quarter day<span class="dot" style="outline:2px solid #2a5f9e;background:#fff"></span>today</div>
-    </div>
-    <div class="section"><h2>Vacation &amp; red days 2026–2030</h2>
-      <div class="yeartabs" id="yeartabs"></div>
-      <div class="cal" id="yearcal"></div>
-      <div class="legend">Mon-first weeks. Hover a marked day for its name.<span class="dot" style="background:#fbe4e4;border:1px solid #c0392b"></span>red day (helgdag)<span class="dot" style="background:#fdf3d7;border:1px solid #9a7b18"></span>eve, 5-h day (afton)<span class="dot" style="background:#c0392b"></span>day off (full)<span class="dot" style="background:linear-gradient(135deg,#c0392b 50%,#f3d9d4 50%)"></span>half<span class="dot" style="outline:2px solid #2a5f9e;background:#fff"></span>today</div>
+    <div class="section"><h2>Calendar</h2>
+      <div class="calnav"><button id="calPrev">←</button><button id="calToday">Today</button><button id="calNext">→</button><span id="calRange" style="font-size:12px;color:#8a8578;margin-left:10px"></span></div>
+      <div class="cal" id="cal"></div>
+      <div class="legend">Mon-first weeks. Hover a marked day for details.<span class="dot" style="background:#2a5f9e"></span>day off (full)<span class="dot" style="background:linear-gradient(135deg,#2a5f9e 50%,#d6e4f7 50%)"></span>half<span class="dot" style="background:linear-gradient(135deg,#2a5f9e 25%,#d6e4f7 25%)"></span>quarter<span class="dot" style="background:#d6e4f7"></span>vacation<span class="dot" style="background:#fbe4e4;border:1px solid #c0392b"></span>red day<span class="dot" style="background:#fdf3d7;border:1px solid #9a7b18"></span>eve (5-h day)<span class="dot" style="outline:2px solid #2a5f9e;background:#fff"></span>today</div>
     </div>
     <div class="section"><h2>Weekly log</h2>
-      <table><thead><tr><th>Week</th><th>Entitled</th><th>Taken</th><th>Days off</th><th>Status</th><th>Note</th></tr></thead><tbody id="rows"></tbody></table>
+      <table><thead><tr><th>Week</th><th>Entitled</th><th>Taken</th><th>Days off</th><th>Vacation</th><th>Status</th><th>Note</th></tr></thead><tbody id="rows"></tbody></table>
     </div>
   </div>
 </div>
@@ -106,7 +104,8 @@ function render(rows){
   const keys = Object.keys(rows[0]||{});
   const dateCols = keys.filter(k=>/^date:.+:start$/.test(k)).map(k=>k.slice(5,-6));
   const wsCol  = dateCols.find(n=>/week\s*start|vecko/i.test(n)) || dateCols[0] || "Week start";
-  const offCol = dateCols.find(n=>n!==wsCol) || "Day off";
+  const vacCol = dateCols.find(n=>/vacation|semester/i.test(n)) || "Vacation";
+  const offCol = dateCols.find(n=>n!==wsCol && n!==vacCol) || "Day off";
   const kWeek  = keys.find(k=>/^(week|vecka)$/i.test(k)) || "Week";
   const kEnt   = keys.find(k=>/entitle|rätt/i.test(k)) || "Entitled";
   const kTaken = keys.find(k=>/^taken$|uttag/i.test(k)) || "Taken";
@@ -115,6 +114,7 @@ function render(rows){
     week: x[kWeek]||"", start: x["date:"+wsCol+":start"] ? parse(x["date:"+wsCol+":start"]) : null,
     ent: +(x[kEnt]||0), taken: +(x[kTaken]||0),
     offStart: x["date:"+offCol+":start"]||null, offEnd: x["date:"+offCol+":end"]||null,
+    vacStart: x["date:"+vacCol+":start"]||null, vacEnd: x["date:"+vacCol+":end"]||null,
     status: x["Status"]||"", note: x[kNote]||""
   })).filter(x=>x.start);
   const offLabel = x => x.offStart ? (x.offEnd? x.offStart+" – "+x.offEnd : x.offStart) + (!x.offEnd ? (x.taken===0.5?" (half)":(x.taken===0.25?" (quarter)":(x.taken===0?" (worked)":""))) : "") : "";
@@ -152,45 +152,31 @@ function render(rows){
 
   // table (newest first)
   const tb=document.getElementById("rows");
-  tb.innerHTML=[...rows].reverse().map(x=>`<tr><td>${x.week}</td><td>${x.ent}</td><td>${x.taken}</td><td>${offLabel(x)}</td><td>${x.status?`<span class="chip ${x.status}">${x.status}</span>`:""}</td><td>${x.note}</td></tr>`).join("");
+  tb.innerHTML=[...rows].reverse().map(x=>`<tr><td>${x.week}</td><td>${x.ent}</td><td>${x.taken}</td><td>${offLabel(x)}</td><td>${x.vacStart?(x.vacEnd?x.vacStart+" – "+x.vacEnd:x.vacStart):""}</td><td>${x.status?`<span class="chip ${x.status}">${x.status}</span>`:""}</td><td>${x.note}</td></tr>`).join("");
 
-  // calendar: mark days from "Datum ledig" (start..end)
-  const off={}; // iso -> 'full'|'half'
+  // --- unified calendar: own time off (blue) + vacation (light blue) + Swedish red days/eves ---
+  const off={}; // iso -> 'full'|'half'|'quarter'
   for(const x of rows){
     if(!x.offStart || !(x.taken>0)) continue; // date without time taken = worked that day, don't mark
     const s=parse(x.offStart), e=x.offEnd?parse(x.offEnd):s;
     const nDays=Math.round((e-s)/86400000)+1;
     const perDay=x.taken/nDays;
     for(let d=new Date(s); d<=e; d.setDate(d.getDate()+1)){
-      if(d.getDay()===0||d.getDay()===6) continue; // skip weekends
+      if(d.getDay()===0||d.getDay()===6) continue;
       const iso=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
       off[iso] = perDay <= 0.3 ? "quarter" : (perDay < 0.75 ? "half" : "full");
     }
   }
-  const cal=document.getElementById("cal"); cal.innerHTML="";
-  const months=[]; const mStart=new Date(today.getFullYear(), today.getMonth()-5,1);
-  for(let i=0;i<8;i++) months.push(new Date(mStart.getFullYear(), mStart.getMonth()+i,1));
-  const dows=["M","T","W","T","F","S","S"];
-  for(const m of months){
-    const div=document.createElement("div"); div.className="month";
-    let h=`<h3>${m.toLocaleDateString("sv-SE",{month:"long",year:"numeric"})}</h3><div class="grid">`;
-    h+=dows.map(d=>`<span class="dow">${d}</span>`).join("");
-    const first=new Date(m); const lead=(first.getDay()+6)%7;
-    for(let i=0;i<lead;i++) h+="<span></span>";
-    const days=new Date(m.getFullYear(),m.getMonth()+1,0).getDate();
-    for(let d=1;d<=days;d++){
-      const dt=new Date(m.getFullYear(),m.getMonth(),d);
-      const iso=`${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
-      let c="d"; if(off[iso]==="full")c+=" off-full"; if(off[iso]==="half")c+=" off-half"; if(off[iso]==="quarter")c+=" off-quarter";
-      if(dt.getTime()===today.getTime())c+=" today";
-      h+=`<span class="${c}">${d}</span>`;
+  const vac={}; // iso -> true (granted vacation/leave from Bob)
+  for(const x of rows){
+    if(!x.vacStart) continue;
+    const s=parse(x.vacStart), e=x.vacEnd?parse(x.vacEnd):s;
+    for(let d=new Date(s); d<=e; d.setDate(d.getDate()+1)){
+      if(d.getDay()===0||d.getDay()===6) continue;
+      const iso=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+      vac[iso]=true;
     }
-    h+="</div>"; div.innerHTML=h; cal.appendChild(div);
   }
-
-  // --- Vacation & red days year calendar (2026-2030) ---
-  // Swedish public holidays (allmänna helgdagar), hard-coded.
-  // Source: Python "holidays" library, cross-checked against kalender-365.se / publicholidays.se (2026-08-03).
   const RED_DAYS = {
     "2026-01-01":"Nyårsdagen","2026-01-06":"Trettondedag jul","2026-04-03":"Långfredagen","2026-04-05":"Påskdagen","2026-04-06":"Annandag påsk","2026-05-01":"Första maj","2026-05-14":"Kristi himmelsfärdsdag","2026-05-24":"Pingstdagen","2026-06-06":"Sveriges nationaldag","2026-06-20":"Midsommardagen","2026-10-31":"Alla helgons dag","2026-12-25":"Juldagen","2026-12-26":"Annandag jul",
     "2027-01-01":"Nyårsdagen","2027-01-06":"Trettondedag jul","2027-03-26":"Långfredagen","2027-03-28":"Påskdagen","2027-03-29":"Annandag påsk","2027-05-01":"Första maj","2027-05-06":"Kristi himmelsfärdsdag","2027-05-16":"Pingstdagen","2027-06-06":"Sveriges nationaldag","2027-06-26":"Midsommardagen","2027-11-06":"Alla helgons dag","2027-12-25":"Juldagen","2027-12-26":"Annandag jul",
@@ -206,35 +192,43 @@ function render(rows){
     "2029-06-22":"Midsommarafton","2029-12-24":"Julafton","2029-12-31":"Nyårsafton",
     "2030-06-21":"Midsommarafton","2030-12-24":"Julafton","2030-12-31":"Nyårsafton"
   };
-  const YEARS=[2026,2027,2028,2029,2030];
-  function renderYear(y){
-    const yc=document.getElementById("yearcal"); yc.innerHTML="";
-    for(let mo=0;mo<12;mo++){
-      const m=new Date(y,mo,1);
+  const dows=["M","T","W","T","F","S","S"];
+  const calBox=document.getElementById("cal");
+  let calOffset=0; // months shifted from the default window (6 back, 5 forward)
+  function renderCal(){
+    calBox.innerHTML="";
+    const start=new Date(today.getFullYear(), today.getMonth()-6+calOffset, 1);
+    const end=new Date(start.getFullYear(), start.getMonth()+11, 1);
+    document.getElementById("calRange").textContent =
+      start.toLocaleDateString("sv-SE",{month:"short",year:"numeric"})+" – "+end.toLocaleDateString("sv-SE",{month:"short",year:"numeric"});
+    for(let i=0;i<12;i++){
+      const m=new Date(start.getFullYear(), start.getMonth()+i, 1);
       const div=document.createElement("div"); div.className="month";
-      let h=`<h3>${m.toLocaleDateString("sv-SE",{month:"long"})} ${y}</h3><div class="grid">`;
+      let h=`<h3>${m.toLocaleDateString("sv-SE",{month:"long",year:"numeric"})}</h3><div class="grid">`;
       h+=dows.map(d=>`<span class="dow">${d}</span>`).join("");
       const lead=(m.getDay()+6)%7;
-      for(let i=0;i<lead;i++) h+="<span></span>";
-      const days=new Date(y,mo+1,0).getDate();
+      for(let k=0;k<lead;k++) h+="<span></span>";
+      const days=new Date(m.getFullYear(),m.getMonth()+1,0).getDate();
       for(let d=1;d<=days;d++){
-        const dt=new Date(y,mo,d);
-        const iso=`${y}-${String(mo+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
+        const dt=new Date(m.getFullYear(),m.getMonth(),d);
+        const iso=`${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;
         let c="d", t="";
         if(RED_DAYS[iso]){ c+=" red"; t=RED_DAYS[iso]; }
         else if(EVES[iso]){ c+=" eve"; t=EVES[iso]; }
-        if(off[iso]==="full")c+=" off-full"; if(off[iso]==="half")c+=" off-half"; if(off[iso]==="quarter")c+=" off-quarter";
-        if(dt.getTime()===today.getTime())c+=" today";
+        else if(vac[iso]){ c+=" vac"; t="Vacation"; }
+        if(off[iso]==="full"){ c+=" off-full"; t="Day off (90%)"; }
+        if(off[iso]==="half"){ c+=" off-half"; t="Half day off (90%)"; }
+        if(off[iso]==="quarter"){ c+=" off-quarter"; t="Quarter day off (90%)"; }
+        if(dt.getTime()===today.getTime()) c+=" today";
         h+=`<span class="${c}"${t?` title="${t}"`:""}>${d}</span>`;
       }
-      h+="</div>"; div.innerHTML=h; yc.appendChild(div);
+      h+="</div>"; div.innerHTML=h; calBox.appendChild(div);
     }
-    document.querySelectorAll("#yeartabs button").forEach(b=>b.classList.toggle("active",+b.dataset.y===y));
   }
-  const tabs=document.getElementById("yeartabs");
-  tabs.innerHTML=YEARS.map(y=>`<button data-y="${y}">${y}</button>`).join("");
-  tabs.onclick=e=>{ if(e.target.dataset.y) renderYear(+e.target.dataset.y); };
-  renderYear(YEARS.includes(today.getFullYear())?today.getFullYear():YEARS[0]);
+  document.getElementById("calPrev").onclick=()=>{calOffset--;renderCal();};
+  document.getElementById("calNext").onclick=()=>{calOffset++;renderCal();};
+  document.getElementById("calToday").onclick=()=>{calOffset=0;renderCal();};
+  renderCal();
 
   // chart
   new Chart(document.getElementById("chart"),{type:"line",
