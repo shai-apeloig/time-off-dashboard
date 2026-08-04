@@ -384,6 +384,18 @@
    "Note": "Halvdag tisdag 28/7. Fredag arbetad — inget svar på check-in, ingen LEDIG-post (antagande).",
    "date:Vacation:start": null,
    "date:Vacation:end": null
+  },
+  {
+   "Week": "2026-V32",
+   "date:Week start:start": "2026-08-03",
+   "Entitled": 0.5,
+   "Taken": 0,
+   "date:Day off:start": "2026-08-07",
+   "date:Day off:end": null,
+   "date:Vacation:start": null,
+   "date:Vacation:end": null,
+   "Status": "Preliminary",
+   "Note": "Current week — created by sync rule; Day off = Friday placeholder until confirmed."
   }
  ]
 }
