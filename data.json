@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-10",
+  "generated": "2026-08-17",
   "results": [
     {"Week": "START – opening balance", "date:Week start:start": "2025-12-28", "Entitled": 3.5, "Taken": 0, "date:Day off:start": null, "date:Day off:end": null, "date:Vacation:start": null, "date:Vacation:end": null, "Status": "Confirmed", "Note": "Opening balance: +3.5 saved days as of end of 2025 (from old sheet). Older history (2023–2025) in Excel archive 'Shai lediga dagar 90%.xlsx'."},
     {"Week": "2026-V1", "date:Week start:start": "2025-12-29", "Entitled": 0, "Taken": 3, "date:Day off:start": "2025-12-29", "date:Day off:end": "2026-01-02", "date:Vacation:start": null, "date:Vacation:end": null, "Status": "Confirmed", "Note": "Minus 3 dagar komp på mellandagarna (nyårsveckan). Exakta dagar ej noterade i gamla arket — intervall mellandagarna."},
@@ -34,6 +34,7 @@
     {"Week": "2026-V30", "date:Week start:start": "2026-07-20", "Entitled": 0, "Taken": 0, "date:Day off:start": "2026-07-24", "date:Day off:end": null, "date:Vacation:start": "2026-07-20", "date:Vacation:end": "2026-07-24", "Status": "Confirmed", "Note": "Semester — ingen intjäning."},
     {"Week": "2026-V31", "date:Week start:start": "2026-07-27", "Entitled": 0.5, "Taken": 0.5, "date:Day off:start": "2026-07-28", "date:Day off:end": null, "date:Vacation:start": null, "date:Vacation:end": null, "Status": "Confirmed", "Note": "Halvdag tisdag 28/7. Fredag arbetad — inget svar på check-in, ingen LEDIG-post (antagande)."},
     {"Week": "2026-V32", "date:Week start:start": "2026-08-03", "Entitled": 0.5, "Taken": 0, "date:Day off:start": "2026-08-07", "date:Day off:end": null, "date:Vacation:start": null, "date:Vacation:end": null, "Status": "Confirmed", "Note": "Full vecka arbetad — inget svar på fredagens check-in, ingen LEDIG-post (antagande, sync 2026-08-10)."},
-    {"Week": "2026-V33", "date:Week start:start": "2026-08-10", "Entitled": 0.5, "Taken": 0, "date:Day off:start": "2026-08-14", "date:Day off:end": null, "date:Vacation:start": null, "date:Vacation:end": null, "Status": "Preliminary", "Note": "Auto-created by Monday sync 2026-08-10. Day off = Friday placeholder."}
+    {"Week": "2026-V33", "date:Week start:start": "2026-08-10", "Entitled": 0.5, "Taken": 0, "date:Day off:start": "2026-08-14", "date:Day off:end": null, "date:Vacation:start": null, "date:Vacation:end": null, "Status": "Confirmed", "Note": "Full vecka arbetad — ingen LEDIG-post i kalendern och inget svar på fredagens check-in (antagande, sync 2026-08-17). Inga röda dagar denna vecka."},
+    {"Week": "2026-V34", "date:Week start:start": "2026-08-17", "Entitled": 0.5, "Taken": 1, "date:Day off:start": "2026-08-21", "date:Day off:end": null, "date:Vacation:start": null, "date:Vacation:end": null, "Status": "Preliminary", "Note": "Auto-created by Monday sync 2026-08-17. Planerad LEDIG hela fredag 21/8 (kalenderpost 08:00-17:00). Inga röda dagar denna vecka."}
   ]
 }
