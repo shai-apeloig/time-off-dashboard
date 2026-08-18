@@ -58,7 +58,7 @@ a { color:#2a5f9e; }
   <div id="app" style="display:none">
     <div class="cards">
       <div class="card"><div class="label">Balance today</div><div class="value" id="balNow"></div><div class="sub" id="balNowSub"></div></div>
-      <div class="card"><div class="label">If you work rest of this week</div><div class="value" id="balProj"></div><div class="sub">incl. this week's entitlement</div></div>
+      <div class="card"><div class="label">If you work rest of this week</div><div class="value" id="balProj"></div><div class="sub" id="balProjSub">incl. this week's entitlement</div></div>
       <div class="card"><div class="label">This week</div><div class="value" id="thisWeek" style="font-size:16px;padding-top:6px"></div><div class="sub" id="thisWeekSub"></div></div>
     </div>
     <div class="section"><h2>Balance over time</h2><div id="chartBox"><canvas id="chart"></canvas></div></div>
@@ -140,13 +140,29 @@ function render(rows){
     if(!done && w.start<=today) currentWeek=w;
     series.push({label: w.week.replace("2026-",""), bal});
   }
-  const proj = currentWeek ? bal + currentWeek.ent : bal;
+  // "If you work the rest of this week": add back this week's entitlement PLUS any time off
+  // in this week that is still ahead (planned, not yet taken) — otherwise a planned day off
+  // is subtracted from the balance and never added back, understating the projection.
+  const futureTaken = w => !w ? 0 : w.rows.reduce((sum,x)=>{
+    if(!(x.taken>0) || !x.offStart) return sum;
+    const s=parse(x.offStart), e=x.offEnd?parse(x.offEnd):s;
+    const days=Math.round((e-s)/86400000)+1;
+    let ahead=0;
+    for(let i=0;i<days;i++){ const d=new Date(s); d.setDate(d.getDate()+i); if(d>=today) ahead++; }
+    return sum + x.taken*(ahead/days);
+  },0);
+  const projAddBack = futureTaken(currentWeek);
+  const proj = currentWeek ? bal + currentWeek.ent + projAddBack : bal;
   const currentWeekRow = currentWeek ? {week:currentWeek.week, ent:currentWeek.ent, taken:currentWeek.taken,
     label: currentWeek.rows.map(offLabel).filter(Boolean).join(", ")} : null;
 
   const bn=document.getElementById("balNow"); bn.textContent=fmt(bal)+" d"; bn.className="value "+cls(bal);
   document.getElementById("balNowSub").textContent = bal<0 ? "to work back" : (bal>0 ? "saved" : "even");
   const bp=document.getElementById("balProj"); bp.textContent=fmt(proj)+" d"; bp.className="value "+cls(proj);
+  const bps=document.getElementById("balProjSub");
+  if(bps) bps.textContent = projAddBack>0
+    ? "incl. this week's entitlement and "+fmt(projAddBack)+" d planned off not taken"
+    : "incl. this week's entitlement";
   document.getElementById("thisWeek").textContent = currentWeekRow ? `${currentWeekRow.week}: ${currentWeekRow.taken} taken of ${currentWeekRow.ent}` : "not logged yet";
   document.getElementById("thisWeekSub").textContent = currentWeekRow ? currentWeekRow.label : "row is created by the Monday sync";
 
