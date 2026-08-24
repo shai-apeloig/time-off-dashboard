@@ -68,7 +68,7 @@ a { color:#2a5f9e; }
       <div class="legend">Mon-first weeks. Hover a marked day for details.<span class="dot" style="background:#2a5f9e"></span>day off (full)<span class="dot" style="background:linear-gradient(135deg,#2a5f9e 50%,#d6e4f7 50%)"></span>half<span class="dot" style="background:linear-gradient(135deg,#2a5f9e 25%,#d6e4f7 25%)"></span>quarter<span class="dot" style="background:#d6e4f7"></span>vacation<span class="dot" style="background:#fbe4e4;border:1px solid #c0392b"></span>red day<span class="dot" style="background:#fdf3d7;border:1px solid #9a7b18"></span>eve (5-h day)<span class="dot" style="outline:2px solid #2a5f9e;background:#fff"></span>today</div>
     </div>
     <div class="section"><h2>Weekly log</h2>
-      <table><thead><tr><th>Week</th><th>Entitled</th><th>Taken</th><th>Days off</th><th>Vacation</th><th>Status</th><th>Note</th></tr></thead><tbody id="rows"></tbody></table>
+      <table><thead><tr><th>Week</th><th>Entitled</th><th>Taken</th><th>Balance</th><th>Days off</th><th>Vacation</th><th>Status</th><th>Note</th></tr></thead><tbody id="rows"></tbody></table>
     </div>
   </div>
 </div>
@@ -137,6 +137,7 @@ function render(rows){
   for(const w of weeks){
     const done = weekEnd(w.start) < today;
     bal += (done? w.ent:0) - w.taken;
+    w.bal = bal;                       // running balance after this week
     if(!done && w.start<=today) currentWeek=w;
     series.push({label: w.week.replace("2026-",""), bal});
   }
@@ -168,7 +169,11 @@ function render(rows){
 
   // table (newest first)
   const tb=document.getElementById("rows");
-  tb.innerHTML=[...rows].reverse().map(x=>`<tr><td>${x.week}</td><td>${x.ent}</td><td>${x.taken}</td><td>${offLabel(x)}</td><td>${x.vacStart?(x.vacEnd?x.vacStart+" – "+x.vacEnd:x.vacStart):""}</td><td>${x.status?`<span class="chip ${x.status}">${x.status}</span>`:""}</td><td>${x.note}</td></tr>`).join("");
+  // running balance is a per-week figure; a week with two rows shows the same value on both
+  const balByWeek=new Map(weeks.map(w=>[w.start.getTime(), w.bal]));
+  const balCell = x => { const b=balByWeek.get(x.start.getTime());
+    return b===undefined ? "<td></td>" : `<td class="${cls(b)}">${fmt(b)}</td>`; };
+  tb.innerHTML=[...rows].reverse().map(x=>`<tr><td>${x.week}</td><td>${x.ent}</td><td>${x.taken}</td>${balCell(x)}<td>${offLabel(x)}</td><td>${x.vacStart?(x.vacEnd?x.vacStart+" – "+x.vacEnd:x.vacStart):""}</td><td>${x.status?`<span class="chip ${x.status}">${x.status}</span>`:""}</td><td>${x.note}</td></tr>`).join("");
 
   // --- unified calendar: own time off (blue) + vacation (light blue) + Swedish red days/eves ---
   const off={}; // iso -> 'full'|'half'|'quarter'
