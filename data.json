@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-07",
+  "generated": "2026-09-15",
   "results": [
     {
       "Week": "START – opening balance",
@@ -449,13 +449,25 @@
       "Week": "2026-V37",
       "date:Week start:start": "2026-09-07",
       "Entitled": 0.5,
-      "Taken": 0,
+      "Taken": 0.5,
       "date:Day off:start": "2026-09-11",
       "date:Day off:end": null,
       "date:Vacation:start": null,
       "date:Vacation:end": null,
+      "Status": "Confirmed",
+      "Note": "Halvdag ledig fredag 11/9. Kalenderposten \"Ledig\" låg 12:00–17:00 och inget svar kom på fredagens check-in, så halvdag är en tolkning av postens längd (sync 2026-09-15). Inga röda dagar denna vecka."
+    },
+    {
+      "Week": "2026-V38",
+      "date:Week start:start": "2026-09-14",
+      "Entitled": 0.5,
+      "Taken": 0,
+      "date:Day off:start": "2026-09-18",
+      "date:Day off:end": null,
+      "date:Vacation:start": null,
+      "date:Vacation:end": null,
       "Status": "Preliminary",
-      "Note": "Auto-created by Monday sync 2026-09-07. Inga röda dagar denna vecka. Ingen planerad LEDIG i kalendern — fredag 11/9 satt som platshållare."
+      "Note": "Auto-created by Monday sync 2026-09-15. Inga röda dagar denna vecka. Ingen planerad LEDIG i kalendern — fredag 18/9 satt som platshållare."
     }
   ]
 }
