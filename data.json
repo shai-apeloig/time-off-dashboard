@@ -1,5 +1,5 @@
 {
- "generated": "2026-09-21",
+ "generated": "2026-09-22",
  "results": [
   {
    "Week": "START – opening balance",
@@ -461,13 +461,13 @@
    "Week": "2026-V38",
    "date:Week start:start": "2026-09-14",
    "Entitled": 0.5,
-   "Taken": 0,
-   "date:Day off:start": "2026-09-18",
+   "Taken": 1,
+   "date:Day off:start": "2026-09-17",
    "date:Day off:end": null,
    "date:Vacation:start": null,
    "date:Vacation:end": null,
    "Status": "Confirmed",
-   "Note": "Full vecka arbetad (antagande, sync 2026-09-21). Inga röda dagar. OBS: torsdag 17/9 låg som \"Out of office\" 09:00–17:30 i kalendern, men det är ingen LEDIG-post och Aboard har ingen beviljad frånvaro det datumet — därför inte räknad som uttagen dag. Ingen fredags-check-in skickades 18/9 och inget svar kom. Fredag 18/9 var arbetad (möten 09:30–14:30). Säg till om 17/9 ska räknas som ledig dag."
+   "Note": "Heldag ledig torsdag 17/9 (bekräftat av Shai 2026-09-22). Kalenderposten löd \"Out of office\" 09:00–17:30 — räknas som LEDIG. Fredag 18/9 var arbetad. Ingen fredags-check-in skickades 18/9. Inga röda dagar denna vecka."
   },
   {
    "Week": "2026-V39",
