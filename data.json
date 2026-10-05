@@ -1,5 +1,5 @@
 {
- "generated": "2026-09-28",
+ "generated": "2026-10-05",
  "results": [
   {
    "Week": "START – opening balance",
@@ -488,10 +488,22 @@
    "Taken": 1,
    "date:Day off:start": "2026-10-02",
    "date:Day off:end": null,
+   "date:Vacation:start": "2026-09-30",
+   "date:Vacation:end": "2026-10-01",
+   "Status": "Confirmed",
+   "Note": "Heldag ledig fredag 2/10 — kalenderposten LEDIG 07:30–17:00, inget svar på fredagens check-in (sync 2026-10-05). Sjukfrånvaro ons 30/9–tors 1/10 enligt Aboard (Sick leave), loggad i Vacation-kolumnen; påverkar inte intjäningen. Inga röda dagar denna vecka."
+  },
+  {
+   "Week": "2026-V41",
+   "date:Week start:start": "2026-10-05",
+   "Entitled": 0.5,
+   "Taken": 0,
+   "date:Day off:start": "2026-10-09",
+   "date:Day off:end": null,
    "date:Vacation:start": null,
    "date:Vacation:end": null,
    "Status": "Preliminary",
-   "Note": "Planerad heldag ledig fredag 2/10 (enligt Shai 2026-09-28). Skapad manuellt i chatt, Monday sync hade inte skapat raden. Inga röda dagar denna vecka."
+   "Note": "Auto-skapad av Monday sync 2026-10-05. Inga röda dagar denna vecka. Day off = fredag som platshållare."
   },
   {
    "Week": "2026-V45",
