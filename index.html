@@ -131,29 +131,31 @@ function render(rows){
   }
   const weeks=[...byWeek.values()].sort((a,b)=>a.start-b.start);
 
-  // balance: entitlement counts once the week is over (Sunday passed); taken always counts
+  // balance: entitlement counts once the week is over (Sunday passed).
+  // Taken counts only for days off that have already passed — planned days are NEVER
+  // subtracted (Shai's rule, 2026-10-12). A finished week counts its full Taken.
   const weekEnd = s => { const e=new Date(s); e.setDate(e.getDate()+6); return e; };
+  const pastTaken = w => w.rows.reduce((sum,x)=>{
+    if(!(x.taken>0)) return sum;
+    if(!x.offStart) return sum; // no date = cannot tell, counted only when week is done
+    const s=parse(x.offStart), e=x.offEnd?parse(x.offEnd):s;
+    const days=Math.round((e-s)/86400000)+1;
+    let past=0;
+    for(let i=0;i<days;i++){ const d=new Date(s); d.setDate(d.getDate()+i); if(d<today) past++; }
+    return sum + x.taken*(past/days);
+  },0);
   let bal=0, series=[], currentWeek=null;
   for(const w of weeks){
     const done = weekEnd(w.start) < today;
-    bal += (done? w.ent:0) - w.taken;
+    bal += done ? (w.ent - w.taken) : -pastTaken(w);
     w.bal = bal;                       // running balance after this week
     if(!done && w.start<=today) currentWeek=w;
     series.push({label: w.week.replace("2026-",""), bal});
   }
-  // "If you work the rest of this week": add back this week's entitlement PLUS any time off
-  // in this week that is still ahead (planned, not yet taken) — otherwise a planned day off
-  // is subtracted from the balance and never added back, understating the projection.
-  const futureTaken = w => !w ? 0 : w.rows.reduce((sum,x)=>{
-    if(!(x.taken>0) || !x.offStart) return sum;
-    const s=parse(x.offStart), e=x.offEnd?parse(x.offEnd):s;
-    const days=Math.round((e-s)/86400000)+1;
-    let ahead=0;
-    for(let i=0;i<days;i++){ const d=new Date(s); d.setDate(d.getDate()+i); if(d>=today) ahead++; }
-    return sum + x.taken*(ahead/days);
-  },0);
-  const projAddBack = futureTaken(currentWeek);
-  const proj = currentWeek ? bal + currentWeek.ent + projAddBack : bal;
+  // "If you work the rest of this week" = balance today + this week's entitlement
+  // (planned days off are not in the balance, so nothing to add back)
+  const projAddBack = 0;
+  const proj = currentWeek ? bal + currentWeek.ent : bal;
   const currentWeekRow = currentWeek ? {week:currentWeek.week, ent:currentWeek.ent, taken:currentWeek.taken,
     label: currentWeek.rows.map(offLabel).filter(Boolean).join(", ")} : null;
 
