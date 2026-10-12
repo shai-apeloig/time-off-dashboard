@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05",
+ "generated": "2026-10-12",
  "results": [
   {
    "Week": "START – opening balance",
@@ -502,8 +502,20 @@
    "date:Day off:end": null,
    "date:Vacation:start": null,
    "date:Vacation:end": null,
+   "Status": "Confirmed",
+   "Note": "Full vecka arbetad — ingen LEDIG-post i kalendern och inget svar på fredagens check-in (antagande, sync 2026-10-12). Inga röda dagar denna vecka."
+  },
+  {
+   "Week": "2026-V42",
+   "date:Week start:start": "2026-10-12",
+   "Entitled": 0.5,
+   "Taken": 1,
+   "date:Day off:start": "2026-10-16",
+   "date:Day off:end": null,
+   "date:Vacation:start": null,
+   "date:Vacation:end": null,
    "Status": "Preliminary",
-   "Note": "Auto-skapad av Monday sync 2026-10-05. Inga röda dagar denna vecka. Day off = fredag som platshållare."
+   "Note": "Auto-skapad av Monday sync 2026-10-12. Planerad heldag ledig fredag 16/10 (kalenderpost \"Ledig\" 08:00–17:00). Inga röda dagar denna vecka."
   },
   {
    "Week": "2026-V45",
