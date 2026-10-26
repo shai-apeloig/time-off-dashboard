@@ -527,7 +527,7 @@
       "date:Vacation:start": null,
       "date:Vacation:end": null,
       "Status": "Confirmed",
-      "Note": "Halvdag ledig fredag 23/10 — kalenderposten \"Ledig\" 13:00–17:00 (möten på förmiddagen). Slack-DM kunde inte läsas i denna sync (Slack ej auktoriserad); en tidigare session idag (commit 09:00 i dashboard-repot) loggade halvdag som bekräftad av Shai 2026-10-26. Inga röda dagar denna vecka."
+      "Note": "Halvdag ledig fredag 23/10 — kalenderposten \"Ledig\" 13:00–17:00 (möten på förmiddagen). Inget svar på fredagens check-in i Slack, så halvdag är en tolkning av postens längd (antagande, sync 2026-10-26). Inga röda dagar denna vecka."
     },
     {
       "Week": "2026-V44",
